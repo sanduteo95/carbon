@@ -65,6 +65,17 @@ describe('Dropdown', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('should render a custom label component', () => {
+    const wrapper = mount(<Dropdown {...mockProps} />);
+    wrapper.setProps({
+      itemToElement: item => <div className="mock-item">{item.label}</div>,
+      labelAsElement: true,
+      selectedItem: mockProps.items[0],
+    });
+    openMenu(wrapper);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   describe('title', () => {
     let wrapper;
     let renderedLabel;
@@ -156,7 +167,7 @@ describe('Dropdown', () => {
         <Dropdown {...mockProps} initialSelectedItem={mockProps.items[0]} />
       );
 
-      expect(wrapper.find(`span.${prefix}--list-box__label`).text()).toEqual(
+      expect(wrapper.find(`div.${prefix}--list-box__label`).text()).toEqual(
         mockProps.items[0].label
       );
     });
@@ -172,7 +183,7 @@ describe('Dropdown', () => {
         <Dropdown {...mockProps} initialSelectedItem={mockProps.items[1]} />
       );
 
-      expect(wrapper.find(`span.${prefix}--list-box__label`).text()).toEqual(
+      expect(wrapper.find(`div.${prefix}--list-box__label`).text()).toEqual(
         mockProps.items[1]
       );
     });

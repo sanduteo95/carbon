@@ -144,6 +144,26 @@ storiesOf('Dropdown', module)
     }
   )
   .add(
+    'label as component',
+    () => (
+      <div style={{ width: 300 }}>
+        <Dropdown
+          {...props()}
+          items={items}
+          itemToString={item => (item ? item.text : '')}
+          itemToElement={itemToElement}
+          onChange={action('onChange')}
+          labelAsElement
+        />
+      </div>
+    ),
+    {
+      info: {
+        text: `Rendering items as custom components`,
+      },
+    }
+  )
+  .add(
     'fully controlled',
     () => (
       <WithState initialState={{ selectedItem: items[0] }}>

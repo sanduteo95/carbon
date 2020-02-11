@@ -137,6 +137,11 @@ export default class Dropdown extends React.Component {
      * Additional props passed to Downshift
      */
     downshiftProps: PropTypes.shape(Downshift.propTypes),
+
+    /**
+     * `true` to use components as dropdown labels.
+     */
+    labelAsElement: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -176,6 +181,7 @@ export default class Dropdown extends React.Component {
       invalid,
       invalidText,
       downshiftProps,
+      labelAsElement,
     } = this.props;
     const inline = type === 'inline';
     const className = ({ isOpen }) =>
@@ -278,12 +284,20 @@ export default class Dropdown extends React.Component {
                   aria-labelledby={`${labelId} ${fieldLabelId}`}
                   aria-describedby={helperId}
                   {...buttonProps}>
-                  <span
+                  <div
                     id={fieldLabelId}
                     className={`${prefix}--list-box__label`}
                     {...getLabelProps()}>
-                    {selectedItem ? itemToString(selectedItem) : label}
-                  </span>
+                    {selectedItem ? (
+                      labelAsElement ? (
+                        <ItemToElement {...selectedItem} />
+                      ) : (
+                        itemToString(selectedItem)
+                      )
+                    ) : (
+                      label
+                    )}
+                  </div>
                   <ListBox.MenuIcon
                     isOpen={isOpen}
                     translateWithId={translateWithId}
